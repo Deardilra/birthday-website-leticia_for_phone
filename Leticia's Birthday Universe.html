@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Leticia!</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000033;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .moon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #fdfbd3;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #fdfbd3;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            text-align: center;
+            max-width: 90%;
+            width: 800px;
+            margin: 20px auto;
+        }
+        h1 {
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 2em;
+        }
+        p {
+            color: #333;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .heart {
+            color: #ff69b4;
+            font-size: 24px;
+        }
+        .button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+        }
+        .button:hover {
+            background-color: #ff1493;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #content {
+            margin-top: 20px;
+        }
+        #media {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 10px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .image-gallery img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+        #videoContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        #videoPlayer {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+        #messageForm textarea {
+            width: 100%;
+            max-width: 300px;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                margin: 10px auto;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            .button {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+            .image-gallery {
+                padding: 5px;
+            }
+            .image-gallery img {
+                max-width: 90%;
+            }
+            .moon {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="moon"></div>
+    <div class="container">
+        <h1>Happy Birthday, Leticia!</h1>
+        <p>嘿寶貝，Surprised！捎來小驚喜。<br>
+           希望明年你生日的時候，<br>
+           我能親自陪在你的身邊，<br>
+           也希望接下來一年裡我們再創造很多回憶，<br>
+           然後像這些星星一樣一顆顆都記錄下來，<br>
+           覺得累、覺得很想對方的時候<br>
+           我們就抬頭看月亮，我會一直在那邊，<br>
+           努力照亮彼此。<br> </p>
+        <p>I love you 3000. Here's to another year of <br>
+           shining bright together!<br>
+        <p class="heart">&#10084;</p>
+
+        <button class="button" onclick="showContent('memories')">Some Fractions</button>
+        <button class="button" onclick="showContent('perfect_you')">Some Perfect You</button>
+        <button class="button" onclick="showContent('us')">Some Us</button>
+        <button class="button" onclick="showContent('sendMessage')">Send a Message</button>
+        
+        <div id="content"></div>
+        <div id="media"></div>
+        <div id="videoContainer">
+            <video id="videoPlayer" controls>
+                <source src="./Memories/Bonus.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // Image data for each section
+        const imageData = {
+            memories: [
+                { src: "./Memories/m1.jpg", alt: "和你在淡水散步到的魚丸店" },
+                { src: "./Memories/m2.jpg", alt: "和你猶豫很久抽到的派大星" },
+                { src: "./Memories/m3.jpg", alt: "和你坐在椅子上一起吃的冰棒" },
+                { src: "./Memories/u1.jpg", alt: "年年都會去的西西里, 海龜咖啡" },
+                { src: "./Memories/m5.jpg", alt: "跟你一起睡覺但我賴床了" },
+                { src: "./Memories/m6.jpg", alt: "一起逃去海邊吧...! :)" }
+                // Add more images here as needed
+            ],
+            perfect_you: [
+                { src: "./Memories/p4.jpg", alt: "漂亮的你跟月" },
+                { src: "./Memories/p1.jpg", alt: "在淡水漂亮的你" },
+                { src: "./Memories/p2.jpg", alt: "在墾丁漂亮的你" },
+                { src: "./Memories/p3.jpg", alt: "在南寮漂亮的你" },
+                { src: "./Memories/p5.jpg", alt: "在漁光島漂亮的你" },
+                { src: "./Memories/p6.jpg", alt: "我(相機裡面)漂亮的你" }
+                // Add more images here as needed
+            ],
+            us: [
+                { src: "./Memories/u2.jpg", alt: "Jennie??" },
+                { src: "./Memories/u3.jpg", alt: "You like this?" },
+                { src: "./Memories/u4.jpg", alt: "記得當時我們在墾丁海邊的拍立得，有海浪聲跟我們的笑聲" },
+                { src: "./Memories/u5.jpg", alt: "第一次出國的我們!" },
+                { src: "./Memories/u6.jpg", alt: "我愛你 <3" },
+                { src: "./Memories/u7.jpg", alt: "希望年年的每個夕陽都是跟你一起看" }
+                // Add more images here as needed
+            ]
+        };
+
+        function createImageGallery(images) {
+            return `
+                <div class="image-gallery">
+                    ${images.map(img => `
+                        <div>
+                            <img src="${img.src}" alt="${img.alt}" />
+                            <p>${img.alt}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function showContent(type) {
+            const contentDiv = document.getElementById('content');
+            const mediaDiv = document.getElementById('media');
+            const videoContainer = document.getElementById('videoContainer');
+
+            videoContainer.style.display = 'none';
+            
+            switch(type) {
+                case 'memories':
+                    contentDiv.innerHTML = "<h2>Our Starry Memories</h2><p>Some of our moments.</p>";
+                    mediaDiv.innerHTML = createImageGallery(imageData.memories);
+                    break;
+                case 'perfect_you':
+                    contentDiv.innerHTML = "<h2>Perfect You in My Eyes</h2><p>Capturing your radiant moments:</p>";
+                    mediaDiv.innerHTML = createImageGallery(imageData.perfect_you);
+                    break;
+                case 'us':
+                    contentDiv.innerHTML = "<h2>Some Us</h2><p>Our journey together, captured in moments:</p>";
+                    mediaDiv.innerHTML = createImageGallery(imageData.us);
+                    break;
+                case 'sendMessage':
+                    contentDiv.innerHTML = `
+                        <h2>Send a Birthday Message</h2>
+                        <form id="messageForm">
+                            <textarea id="messageText" placeholder="You can type something here..."></textarea>
+                            <button type="submit" class="button">Send Message</button>
+                        </form>
+                    `;
+                    mediaDiv.innerHTML = "";
+                    document.getElementById('messageForm').addEventListener('submit', sendMessage);
+                    break;
+            }
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const message = document.getElementById('messageText').value;
+            const email = 'taya10303@gmail.com';
+            const subject = 'Birthday Wishes for Leticia';
+
+            // Get the form data
+            const form = event.target;
+            const formData = new FormData(form);
+
+           // Send the form data using fetch
+           fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // Show thank you message and play surprise video
+                    document.getElementById('content').innerHTML = "<h2>Thank you for your message! Here's a surprise for you!</h2>";
+                    document.getElementById('media').innerHTML = "";
+                    const videoContainer = document.getElementById('videoContainer');
+                    videoContainer.style.display = 'block';
+
+                    // Start playing the video
+                    const videoPlayer = document.getElementById('videoPlayer');
+                    videoPlayer.play();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Thank you for the message! A surprise for you!');
+            });
+            
+            // Show surprise video
+            document.getElementById('content').innerHTML = "<h2>Thank you for your message! Here's a surprise for you!</h2>";
+            document.getElementById('media').innerHTML = "";
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.style.display = 'block';
+
+            // Start playing the video
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.play();
+
+        }
+
+        // Create twinkling stars
+        const starsContainer = document.querySelector('.stars');
+        const starCount = 200;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = `${Math.random() * 3}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            starsContainer.appendChild(star);
+        }
+
+    </script>
+</body>
+</html>
